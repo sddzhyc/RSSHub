@@ -1272,6 +1272,9 @@
   "/coomer/posts": [
     "nczitzk"
   ],
+  "/copernicium/:category": [
+    "dzx-dzx"
+  ],
   "/copymanga/comic/:id/:chapterCnt?": [
     "btdwv",
     "marvolo666",
@@ -1385,6 +1388,9 @@
   ],
   "/daily/upvoted": [
     "Rjnishant530"
+  ],
+  "/daily/user/:userId": [
+    "TonyRL"
   ],
   "/damai/activity/:city/:category/:subcategory/:keyword?": [
     "hoilc"
@@ -1672,7 +1678,8 @@
     "nczitzk"
   ],
   "/douyu/room/:id": [
-    "DIYgod"
+    "DIYgod",
+    "ChaosTong"
   ],
   "/dribbble/keyword/:keyword": [
     "DIYgod",
@@ -1826,6 +1833,9 @@
   ],
   "/famitsu/category/:category?": [
     "TonyRL"
+  ],
+  "/fanbox/:creator": [
+    "KarasuShin"
   ],
   "/fansly/user/:username": [
     "TonyRL"
@@ -2215,7 +2225,9 @@
   "/google/search/:keyword/:language?": [
     "CaoMeiYouRen"
   ],
-  "/gov/anhui/kjt/*": [],
+  "/gov/ah/kjt/:category{.+}?": [
+    "nczitzk"
+  ],
   "/gov/beijing/bjedu/gh/:urlPath?": [
     "TonyRL"
   ],
@@ -4153,6 +4165,12 @@
   "/oilchem/:type?/:category?/:subCategory?": [
     "nczitzk"
   ],
+  "/olevod/vod/:id": [
+    "fang63625"
+  ],
+  "/olevod/vodlist": [
+    "fang63625"
+  ],
   "/ollama/library": [
     "Nick22nd"
   ],
@@ -5640,6 +5658,9 @@
   "/trow/portal": [
     "shiningdracon"
   ],
+  "/ttv/:category?": [
+    "dzx-dzx"
+  ],
   "/tvb/news/:category?/:language?": [
     "nczitzk"
   ],
@@ -6297,6 +6318,9 @@
   "/yangtzeu/dongke/*": [],
   "/ycwb/:node": [
     "TimWu007"
+  ],
+  "/yenpress/series/:name": [
+    "TonyRL"
   ],
   "/ygkkk/": [
     "cnkmmk"
