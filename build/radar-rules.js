@@ -6655,7 +6655,7 @@
         docs:"https://docs.rsshub.app/routes/university",
         source:[ "/",
           "/:type/list.htm" ],
-        target:"/upc/upc/jwc/:type?/list.htm" } ],
+        target:"/upc/jwc/:type?" } ],
     "zs.gs":[ { title:"研究生院通知公告",
         docs:"https://docs.rsshub.app/routes/university",
         source:[ "/sszs/list.htm",

@@ -15377,7 +15377,7 @@
           "/",
           "/:type/list.htm"
         ],
-        "target": "/upc/upc/jwc/:type?/list.htm"
+        "target": "/upc/jwc/:type?"
       }
     ],
     "zs.gs": [
