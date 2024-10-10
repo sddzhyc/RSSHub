@@ -1,4 +1,4 @@
-import { Route } from '@/types';
+import { Route, ViewType } from '@/types';
 import got from '@/utils/got';
 import cache from './cache';
 import utils from './utils';
@@ -6,13 +6,14 @@ import logger from '@/utils/logger';
 
 export const route: Route = {
     path: '/user/video/:uid/:disableEmbed?',
-    categories: ['social-media'],
+    categories: ['social-media', 'popular'],
+    view: ViewType.Videos,
     example: '/bilibili/user/video/2267573',
     parameters: { uid: '用户 id, 可在 UP 主主页中找到', disableEmbed: '默认为开启内嵌视频, 任意值为关闭' },
     features: {
         requireConfig: false,
         requirePuppeteer: false,
-        antiCrawler: true,
+        antiCrawler: false,
         supportBT: false,
         supportPodcast: false,
         supportScihub: false,
@@ -26,9 +27,6 @@ export const route: Route = {
     name: 'UP 主投稿',
     maintainers: ['DIYgod'],
     handler,
-    description: `:::tip 动态的专栏显示全文
-  可以使用 [UP 主动态](#bilibili-up-zhu-dong-tai)路由作为代替绕过反爬限制
-  :::`,
 };
 
 async function handler(ctx) {
@@ -37,6 +35,7 @@ async function handler(ctx) {
     const cookie = await cache.getCookie();
     const wbiVerifyString = await cache.getWbiVerifyString();
     const dmImgList = utils.getDmImgList();
+    const renderData = await cache.getRenderData(uid);
     const [name, face] = await cache.getUsernameAndFaceFromUID(uid);
 
     // await got(`https://space.bilibili.com/${uid}/video?tid=0&page=1&keyword=&order=pubdate`, {
@@ -45,7 +44,7 @@ async function handler(ctx) {
     //         Cookie: cookie,
     //     },
     // });
-    const params = utils.addWbiVerifyInfo(utils.addDmVerifyInfo(`mid=${uid}&ps=30&tid=0&pn=1&keyword=&order=pubdate&platform=web&web_location=1550101&order_avoided=true`, dmImgList), wbiVerifyString);
+    const params = utils.addWbiVerifyInfo(utils.addRenderData(utils.addDmVerifyInfo(`mid=${uid}&ps=30&tid=0&pn=1&keyword=&order=pubdate&platform=web&web_location=1550101&order_avoided=true`, dmImgList), renderData), wbiVerifyString);
     const response = await got(`https://api.bilibili.com/x/space/wbi/arc/search?${params}`, {
         headers: {
             Referer: `https://space.bilibili.com/${uid}/video?tid=0&page=1&keyword=&order=pubdate`,

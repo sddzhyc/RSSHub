@@ -1,4 +1,4 @@
-import { Route } from '@/types';
+import { Route, ViewType } from '@/types';
 import cache from '@/utils/cache';
 import got from '@/utils/got';
 import { load } from 'cheerio';
@@ -8,7 +8,8 @@ const link = 'https://www.economist.com/the-world-in-brief';
 
 export const route: Route = {
     path: '/espresso',
-    categories: ['traditional-media'],
+    categories: ['traditional-media', 'popular'],
+    view: ViewType.Articles,
     example: '/economist/espresso',
     parameters: {},
     features: {
@@ -42,7 +43,7 @@ async function handler() {
     );
 
     const nextData = JSON.parse($('script#__NEXT_DATA__').text());
-    const parts = nextData.props.pageProps.content.hasPart.parts[0].hasPart.parts.filter((part) => part.type.includes('Article'));
+    const parts = nextData.props.pageProps.content.hasPart.parts[0].hasPart.parts.filter((part) => part.type.includes('Article') && part.headline !== '');
 
     const renderHTML = (node) => {
         let el;

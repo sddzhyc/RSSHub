@@ -18,7 +18,7 @@ export const route: Route = {
                 description: 'Please see above for details.',
             },
             {
-                name: 'TWITTER_COOKIE',
+                name: 'TWITTER_AUTH_TOKEN',
                 description: 'Please see above for details.',
             },
         ],
@@ -33,7 +33,7 @@ export const route: Route = {
     handler,
     radar: [
         {
-            source: ['twitter.com/i/lists/:id'],
+            source: ['x.com/i/lists/:id'],
             target: '/list/:id',
         },
     ],
@@ -41,15 +41,18 @@ export const route: Route = {
 
 async function handler(ctx) {
     const id = ctx.req.param('id');
-    const { count } = utils.parseRouteParams(ctx.req.param('routeParams'));
+    const { count, include_rts } = utils.parseRouteParams(ctx.req.param('routeParams'));
     const params = count ? { count } : {};
 
     await api.init();
-    const data = await api.getList(id, params);
+    let data = await api.getList(id, params);
+    if (!include_rts) {
+        data = utils.excludeRetweet(data);
+    }
 
     return {
         title: `Twitter List - ${id}`,
-        link: `https://twitter.com/i/lists/${id}`,
+        link: `https://x.com/i/lists/${id}`,
         item: utils.ProcessFeed(ctx, {
             data,
         }),

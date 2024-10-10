@@ -4,6 +4,7 @@ import { load } from 'cheerio';
 import queryString from 'query-string';
 import { parseDate } from '@/utils/parse-date';
 import sanitizeHtml from 'sanitize-html';
+import { parseToken } from '@/routes/xueqiu/cookies';
 
 export const route: Route = {
     path: '/stock_info/:id/:type?',
@@ -49,8 +50,8 @@ async function handler(ctx) {
         method: 'get',
         url: `https://xueqiu.com/S/${id}`,
     });
-    const token = res1.headers['set-cookie'].find((s) => s.startsWith('xq_a_token=')).split(';')[0];
 
+    const token = await parseToken();
     const $ = load(res1.data); // 使用 cheerio 加载返回的 HTML
     const stock_name = $('.stock-name').text().split('(')[0];
 
@@ -81,17 +82,11 @@ async function handler(ctx) {
         title: `${id} ${stock_name} - ${source}`,
         link: `https://xueqiu.com/S/${id}`,
         description: `${stock_name} - ${source}`,
-        item: data.map((item) => {
-            let link = `https://xueqiu.com${item.target}`;
-            if (item.quote_cards) {
-                link = item.quote_cards[0].target_url;
-            }
-            return {
-                title: item.title || sanitizeHtml(item.description, { allowedTags: [], allowedAttributes: {} }),
-                description: item.description,
-                pubDate: parseDate(item.created_at),
-                link,
-            };
-        }),
+        item: data.map((item) => ({
+            title: item.title || sanitizeHtml(item.description, { allowedTags: [], allowedAttributes: {} }),
+            description: item.description,
+            pubDate: parseDate(item.created_at),
+            link: `https://xueqiu.com${item.target}`,
+        })),
     };
 }
